@@ -10,7 +10,7 @@
 
 #### 配置
 
-1. 使用原来的主机名或重新设定主机名
+1 使用原来的主机名或重新设定主机名
 
 - 重新设定主机名
 
@@ -24,7 +24,7 @@
 # hostname
 ```
 
-2. 配置`/etc/named.com`
+2 配置`/etc/named.com`
 
 ```
 //
@@ -45,15 +45,15 @@ options {
 	memstatistics-file "/var/named/data/named_mem_stats.txt";
 	allow-query     { localhost; };
 
-	/* 
+	/*
 	 - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
-	 - If you are building a RECURSIVE (caching) DNS server, you need to enable 
-	   recursion. 
-	 - If your recursive DNS server has a public IP address, you MUST enable access 
+	 - If you are building a RECURSIVE (caching) DNS server, you need to enable
+	   recursion.
+	 - If your recursive DNS server has a public IP address, you MUST enable access
 	   control to limit queries to your legitimate users. Failing to do so will
-	   cause your server to become part of large scale DNS amplification 
+	   cause your server to become part of large scale DNS amplification
 	   attacks. Implementing BCP38 within your network would greatly
-	   reduce such attack surface 
+	   reduce such attack surface
 	*/
 	recursion yes;
 
@@ -92,7 +92,7 @@ include "/etc/named.root.key";
 
 ```
 
-3. 创建`/var/named/dynamic/zlx.com.zone`
+3 创建`/var/named/dynamic/zlx.com.zone`
 
 ```
 $TTL 3H
@@ -108,14 +108,20 @@ dns   IN       A       10.70.77.37
 ```
 `10.70.77.37`是DNS服务器的IP
 
-4. 检查`named`配置并启动`named`
+4 检查`named`配置并启动`named`
 
 ```
 # named-checkconf
 # systemctl start named
 ```
 
-5. 验证
+5 nameserver配置
+修改`/etc/resolv.conf`：
+```
+nameserver 10.70.77.37
+```
+
+6 验证
 
 ```
 # nslookup www.zlx.com
@@ -123,8 +129,8 @@ dns   IN       A       10.70.77.37
 ```
 输出：
 ```
-Server:		127.0.0.1
-Address:	127.0.0.1#53
+Server:		10.70.77.37
+Address:	10.70.77.37#53
 
 Name:	www.zlx.com
 Address: 10.70.77.37
