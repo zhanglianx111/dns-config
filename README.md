@@ -11,16 +11,21 @@
 #### 配置
 
 1. 使用原来的主机名或重新设定主机名
+
 - 重新设定主机名
+
 ```
 # hostnamectl set-hostname dns.zlx.com
 ```
 
 - 检查设定的主机名
+
 ```
 # hostname
 ```
+
 2. 配置`/etc/named.com`
+
 ```
 //
 // named.conf
@@ -88,6 +93,7 @@ include "/etc/named.root.key";
 ```
 
 3. 创建`/var/named/dynamic/zlx.com.zone`
+
 ```
 $TTL 3H
 @       IN SOA  dns.zlx.com. rname.zlx.com. (
@@ -103,12 +109,14 @@ dns   IN       A       10.70.77.37
 `10.70.77.37`是DNS服务器的IP
 
 4. 检查`named`配置并启动`named`
+
 ```
 # named-checkconf
 # systemctl start named
 ```
 
 5. 验证
+
 ```
 # nslookup www.zlx.com
 
